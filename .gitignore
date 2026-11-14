@@ -1,3 +1,6 @@
 .venv
 .vscode
 results
+log.html
+output.xml
+report.html
