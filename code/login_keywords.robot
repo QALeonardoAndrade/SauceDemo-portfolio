@@ -10,18 +10,11 @@ Abrir Navegador
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    modules=sys
 
     IF    $ci == 'true'
-        ${arg1}=    Set Variable    --headless=new
-        ${arg2}=    Set Variable    --no-sandbox
-        ${arg3}=    Set Variable    --disable-dev-shm-usage
-        ${arg4}=    Set Variable    --window-size=1920,1080
-
-        Call Method    ${options}    add_argument    ${arg1}
-        Call Method    ${options}    add_argument    ${arg2}
-        Call Method    ${options}    add_argument    ${arg3}
-        Call Method    ${options}    add_argument    ${arg4}
+        Evaluate    $options.add_argument('--headless=new')
+        Evaluate    $options.add_argument('--no-sandbox')
+        Evaluate    $options.add_argument('--disable-dev-shm-usage')
+        Evaluate    $options.add_argument('--window-size=1920,1080')
     END
-
-    Open Browser    ${BASE_URL}    ${BROWSER}    options=${options}
 
     Open Browser    ${BASE_URL}    ${BROWSER}    options=${options}
 
