@@ -4,8 +4,10 @@ Resource    ../variables/variables.robot
 Library    SeleniumLibrary
 Library    Collections
 
-Test Setup    Open Browser    ${BASE_URL}    ${BROWSER}
-Test Teardown    Run Keywords    Capture Page Screenshot    Close Browser
+Test Setup    Abrir Navegador
+Test Teardown    Run Keywords    
+...    Capture Page Screenshot    
+...    AND    Close Browser
 
 *** Test Cases ***
 CT 01 - Validar login com credenciais válidas

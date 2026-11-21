@@ -1,8 +1,23 @@
 *** Settings ***
 Resource    ../variables/variables.robot
 Library    SeleniumLibrary
+Library     OperatingSystem
+Library    Collections
 
 *** Keywords ***
+Abrir Navegador
+    ${ci}=    Get Environment Variable    CI    default=False
+    ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    modules=sys
+
+    IF    $ci == 'true'
+        Call Method    ${options}    add_argument    --headless=new
+        Call Method    ${options}    add_argument    --no-sandbox
+        Call Method    ${options}    add_argument    --disable-dev-shm-usage
+        Call Method    ${options}    add_argument    --window-size=1920,1080
+    END
+
+    Open Browser    ${BASE_URL}    ${BROWSER}    options=${options}
+
 Dado que o usuário acessa a página de login do site
     Go To    ${BASE_URL}
     Wait Until Page Contains Element    id=user-name    timeout=10s
@@ -193,6 +208,7 @@ Dado que o usuário está logado no sistema
     Click Button    id=login-button
 
 Quando clica na opção de Logout
+    Wait Until Element Is Visible    id=react-burger-menu-btn    timeout=10s
     Click Element    //*[@id="react-burger-menu-btn"]
     Wait Until Element Is Visible    id=logout_sidebar_link    timeout=10s
     Click Element    id=logout_sidebar_link
